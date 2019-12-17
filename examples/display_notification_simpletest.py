@@ -4,14 +4,14 @@ The A and B buttons on the CircuitPlayground Bluefruit can be used to scroll thr
 notifications.
 """
 
+import time
 import board
 import digitalio
 import displayio
-import time
 
 import adafruit_ble
 from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
-from adafruit_ble.services.apple import AppleNotificationService
+from adafruit_ble_apple_notification_center import AppleNotificationCenterService
 from adafruit_display_notification import apple
 from adafruit_display_notification import NotificationFree
 from adafruit_display_ble_status.advertising import AdvertisingWidget
@@ -32,18 +32,17 @@ b.switch_to_input(pull=digitalio.Pull.DOWN)
 
 def find_connection():
     for connection in radio.connections:
-        if AppleNotificationService not in connection:
+        if AppleNotificationCenterService not in connection:
             continue
         if not connection.paired:
             connection.pair()
-        return connection, connection[AppleNotificationService]
+        return connection, connection[AppleNotificationCenterService]
     return None, None
 
 # Start advertising before messing with the display so that we can connect immediately.
 radio = adafruit_ble.BLERadio()
 advertisement = SolicitServicesAdvertisement()
-advertisement.complete_name = "CIRCUITPY"
-advertisement.solicited_services.append(AppleNotificationService)
+advertisement.solicited_services.append(AppleNotificationCenterService)
 
 SCALE = 2
 
@@ -71,12 +70,14 @@ while True:
     while active_connection.connected:
         all_ids.clear()
         current_notifications = notification_service.active_notifications
-        for id in current_notifications:
-            notification = current_notifications[id]
+        for notification_id in current_notifications:
+            notification = current_notifications[notification_id]
             if APPS and notification.app_id not in APPS:
                 continue
-            all_ids.append(id)
+            all_ids.append(notification_id)
 
+        # For now, use _raw_date even though we should use a parsed version of the date.
+        # pylint: disable=protected-access
         all_ids.sort(key=lambda x: current_notifications[x]._raw_date)
 
         if current_notification and current_notification.removed:
@@ -87,7 +88,9 @@ while True:
             group[0] = NotificationFree(width, height)
         elif all_ids:
             now = time.monotonic()
-            if current_notification and current_notification.id in all_ids and now - last_press < DELAY_AFTER_PRESS:
+            if (current_notification and
+                    current_notification.id in all_ids and
+                    now - last_press < DELAY_AFTER_PRESS):
                 index = all_ids.index(current_notification.id)
             else:
                 index = len(all_ids) - 1
@@ -99,9 +102,9 @@ while True:
                     last_press = now
                     index += 1
 
-            id = all_ids[index]
-            if not current_notification or current_notification.id != id:
-                current_notification = current_notifications[id]
+            notification_id = all_ids[index]
+            if not current_notification or current_notification.id != notification_id:
+                current_notification = current_notifications[notification_id]
                 print(current_notification._raw_date, current_notification)
                 group[0] = apple.create_notification_widget(current_notification, width, height)
 
