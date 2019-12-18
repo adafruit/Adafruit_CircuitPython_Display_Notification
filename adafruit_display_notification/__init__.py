@@ -39,6 +39,8 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Display_Notificat
 
 TEXT_FONT = terminalio.FONT
 
+# pylint: disable=too-few-public-methods
+
 class NotificationFree(displayio.Group):
     """Widget to show when no notifications are active."""
     def __init__(self, width, height, *, dark_mode=True):
