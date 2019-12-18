@@ -39,10 +39,10 @@ deploy:
 install:
   - pip install -r requirements.txt
   - pip install circuitpython-build-tools Sphinx sphinx-rtd-theme
-  - pip install --force-reinstall pylint==1.9.2
+  - pip install --force-reinstall "pylint<3"
 
 script:
-  - pylint adafruit_display_notification.py
+  - pylint adafruit_display_notification/*.py
   - ([[ ! -d "examples" ]] || pylint --disable=missing-docstring,invalid-name,bad-whitespace examples/*.py)
   - circuitpython-build-bundles --filename_prefix adafruit-circuitpython-display_notification --library_location .
   - cd docs && sphinx-build -E -W -b html . _build/html && cd ..

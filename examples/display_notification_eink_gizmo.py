@@ -1,13 +1,8 @@
 """This demo shows the latest notification from a connected Apple device on the EInk screen."""
 
-import board
-import displayio
-import terminalio
-import time
-
 import adafruit_ble
 from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
-from adafruit_ble.services.apple import AppleNotificationService
+from adafruit_ble_apple_notification_center import AppleNotificationCenterService
 from adafruit_display_notification import apple
 from adafruit_display_notification import NotificationFree
 from adafruit_display_ble_status.advertising import AdvertisingWidget
@@ -18,22 +13,21 @@ APPS = ["com.tinyspeck.chatlyio", "com.atebits.Tweetie2"]
 
 def find_connection():
     for connection in radio.connections:
-        if AppleNotificationService not in connection:
+        if AppleNotificationCenterService not in connection:
             continue
         if not connection.paired:
             connection.pair()
-        return connection, connection[AppleNotificationService]
+        return connection, connection[AppleNotificationCenterService]
     return None, None
 
 # Start advertising before messing with the display so that we can connect immediately.
 radio = adafruit_ble.BLERadio()
 a = SolicitServicesAdvertisement()
-a.complete_name = "CIRCUITPY"
-a.solicited_services.append(AppleNotificationService)
+a.solicited_services.append(AppleNotificationCenterService)
 
 display = eink_gizmo.EInk_Gizmo()
 
-radio_widget = AdvertisingWidget("CIRCUITPY", display.width, display.height)
+radio_widget = AdvertisingWidget(radio.name, display.width, display.height)
 display.show(radio_widget)
 
 # True when the screen reflects our current state.
@@ -61,6 +55,8 @@ while True:
             # Filter notifications we don't care about.
             if APPS and notification.app_id not in APPS:
                 continue
+            # For now, use _raw_date even though we should use a parsed version of the date.
+            # pylint: disable=protected-access
             # Ignore notifications older than the currently shown one.
             if latest_notification and notification._raw_date < latest_notification._raw_date:
                 continue
@@ -71,15 +67,17 @@ while True:
             print(new_notification)
             latest_notification = new_notification
             screen_updated = False
-            display.show(apple.create_notification_widget(latest_notification, display.width, display.height))
+            display.show(apple.create_notification_widget(latest_notification,
+                                                          display.width,
+                                                          display.height))
         elif latest_notification and latest_notification.removed:
             # Stop showing the latest and show that there are no new notifications.
             latest_notification = None
             screen_updated = False
-            display.show(NotificationFree())
+            display.show(NotificationFree(display.width, display.height))
 
-        # Do not refresh the screen more often than every 180 seconds for eInk displays! Rapid refreshes
-        # will damage the panel.
+        # Do not refresh the screen more often than every 180 seconds for eInk displays! Rapid
+        # refreshes will damage the panel.
         if not screen_updated and display.time_to_refresh == 0:
             display.refresh()
             screen_updated = True
