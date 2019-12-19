@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_Display_Notification.svg?branch=master
-    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_Display_Notification
+.. image:: https://github.com/adafruit/Adafruit_CircuitPython_Display_Notification/workflows/Build%20CI/badge.svg
+    :target: https://github.com/adafruit/Adafruit_CircuitPython_Display_Notification/actions
     :alt: Build Status
 
 Displayio Widgets for displaying notifications
