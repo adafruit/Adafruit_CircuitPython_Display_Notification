@@ -40,7 +40,14 @@ jobs:
         source actions-ci/install.sh
     - name: Pip install pylint, black, & Sphinx
       run: |
-        pip install --force-reinstall pylint==1.9.2 black==19.10b0 Sphinx sphinx-rtd-theme
+<<<<<<< Updated upstream
+        pip install --force-reinstall pylint black==19.10b0 Sphinx sphinx-rtd-theme
+=======
+        sudo apt-get install -y gettext
+        pip install -r requirements.txt
+        pip install circuitpython-build-tools Sphinx sphinx-rtd-theme
+        pip install pylint
+>>>>>>> Stashed changes
     - name: Library version
       run: git describe --dirty --always --tags
     - name: PyLint

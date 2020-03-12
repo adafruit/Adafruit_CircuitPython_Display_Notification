@@ -11,6 +11,7 @@ from adafruit_gizmo import eink_gizmo
 # This is a whitelist of apps to show notifications from.
 APPS = ["com.tinyspeck.chatlyio", "com.atebits.Tweetie2"]
 
+
 def find_connection():
     for connection in radio.connections:
         if AppleNotificationCenterService not in connection:
@@ -19,6 +20,7 @@ def find_connection():
             connection.pair()
         return connection, connection[AppleNotificationCenterService]
     return None, None
+
 
 # Start advertising before messing with the display so that we can connect immediately.
 radio = adafruit_ble.BLERadio()
@@ -51,14 +53,19 @@ while True:
         if not screen_updated:
             remaining_time = display.time_to_refresh
         new_notification = None
-        for notification in notification_service.wait_for_new_notifications(remaining_time):
+        for notification in notification_service.wait_for_new_notifications(
+            remaining_time
+        ):
             # Filter notifications we don't care about.
             if APPS and notification.app_id not in APPS:
                 continue
             # For now, use _raw_date even though we should use a parsed version of the date.
             # pylint: disable=protected-access
             # Ignore notifications older than the currently shown one.
-            if latest_notification and notification._raw_date < latest_notification._raw_date:
+            if (
+                latest_notification
+                and notification._raw_date < latest_notification._raw_date
+            ):
                 continue
             new_notification = notification
             break
@@ -67,9 +74,11 @@ while True:
             print(new_notification)
             latest_notification = new_notification
             screen_updated = False
-            display.show(apple.create_notification_widget(latest_notification,
-                                                          display.width,
-                                                          display.height))
+            display.show(
+                apple.create_notification_widget(
+                    latest_notification, display.width, display.height
+                )
+            )
         elif latest_notification and latest_notification.removed:
             # Stop showing the latest and show that there are no new notifications.
             latest_notification = None
