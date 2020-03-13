@@ -34,7 +34,12 @@ from . import PlainNotification
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Display_Notification.git"
 
-def create_notification_widget(notification, max_width, max_height, *, color_count=2**16):
+
+def create_notification_widget(
+    notification, max_width, max_height, *, color_count=2 ** 16
+):
     """Creates a notification widget for the given Apple notification."""
     # pylint: disable=unused-argument
-    return PlainNotification(notification.title, notification.message, max_width, max_height)
+    return PlainNotification(
+        notification.title, notification.message, max_width, max_height
+    )
