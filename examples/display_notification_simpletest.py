@@ -7,9 +7,9 @@ notifications.
 import time
 import board
 import digitalio
+import displayio
 import adafruit_ble
 from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
-import displayio
 
 from adafruit_ble_apple_notification_center import AppleNotificationCenterService
 from adafruit_display_notification import apple
