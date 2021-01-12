@@ -1,12 +1,15 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 """This demo shows the latest notification from a connected Apple device on the EInk screen."""
 
 import adafruit_ble
 from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
 from adafruit_ble_apple_notification_center import AppleNotificationCenterService
-from adafruit_display_notification import apple
-from adafruit_display_notification import NotificationFree
 from adafruit_display_ble_status.advertising import AdvertisingWidget
 from adafruit_gizmo import eink_gizmo
+from adafruit_display_notification import apple
+from adafruit_display_notification import NotificationFree
 
 # This is a whitelist of apps to show notifications from.
 APPS = ["com.tinyspeck.chatlyio", "com.atebits.Tweetie2"]
