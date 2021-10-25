@@ -58,6 +58,11 @@ Usage Example
 
 See the `examples` folder.
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/display_notification/en/latest/>`_.
+
 Contributing
 ============
 
