@@ -18,7 +18,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Display_Notificat
 
 
 def create_notification_widget(
-    notification, max_width, max_height, *, color_count=2 ** 16
+    notification, max_width, max_height, *, color_count=2**16
 ):
     """Creates a notification widget for the given Apple notification."""
     # pylint: disable=unused-argument
