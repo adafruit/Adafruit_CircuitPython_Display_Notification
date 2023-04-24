@@ -16,7 +16,7 @@ import terminalio
 
 # For older versions, typing may need to be imported
 try:
-    from typing import List, Tuple
+    from typing import List, Tuple, Optional, Union
 except ImportError:
     pass
 
@@ -31,7 +31,8 @@ TEXT_FONT = terminalio.FONT
 class NotificationFree(displayio.Group):
     """Widget to show when no notifications are active."""
 
-    def __init__(self, width: int, height: int, *, dark_mode=True):
+    def __init__(self, width: Union[int, float], height: Union[int, float], *, 
+                 dark_mode: Union[bool, int]=True):
         # pylint: disable=unused-argument
         super().__init__()
 
@@ -50,7 +51,8 @@ class NotificationFree(displayio.Group):
 class PlainNotification(displayio.Group):
     """Plain text widget with a title and message."""
 
-    def __init__(self, title: str, message: str, width: int, height: int, *, dark_mode: bool=True):
+    def __init__(self, title: str, message: str, width: Union[int, float], height: Union[int, float],
+                  *, dark_mode: Union[bool, int]=True):
         super().__init__()
 
         # Set text, font, and color
