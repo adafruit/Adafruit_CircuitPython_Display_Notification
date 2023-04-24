@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2019 Scott Shawcroft for Adafruit Industries
-#
+
 # SPDX-License-Identifier: MIT
 
 """
@@ -11,10 +11,14 @@ Very basic notification widgets.
 """
 
 import displayio
-
 from adafruit_display_text import label
-
 import terminalio
+
+# For older versions, typing may need to be imported
+try:
+    from typing import List, Tuple
+except ImportError:
+    pass
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Display_Notification.git"
@@ -27,7 +31,7 @@ TEXT_FONT = terminalio.FONT
 class NotificationFree(displayio.Group):
     """Widget to show when no notifications are active."""
 
-    def __init__(self, width, height, *, dark_mode=True):
+    def __init__(self, width: int, height: int, *, dark_mode=True):
         # pylint: disable=unused-argument
         super().__init__()
 
@@ -46,7 +50,7 @@ class NotificationFree(displayio.Group):
 class PlainNotification(displayio.Group):
     """Plain text widget with a title and message."""
 
-    def __init__(self, title, message, width, height, *, dark_mode=True):
+    def __init__(self, title: str, message: str, width: int, height: int, *, dark_mode: bool=True):
         super().__init__()
 
         # Set text, font, and color
@@ -71,7 +75,7 @@ class PlainNotification(displayio.Group):
 
     # cribbed from pyportal
     @staticmethod
-    def _wrap_nicely(string, max_chars):
+    def _wrap_nicely(string: str, max_chars: int) -> List[str]:
         """A helper that will return a list of lines with word-break wrapping.
         :param str string: The text to be wrapped.
         :param int max_chars: The maximum number of characters on a line before wrapping.
