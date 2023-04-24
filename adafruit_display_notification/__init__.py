@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2019 Scott Shawcroft for Adafruit Industries
-#
+
 # SPDX-License-Identifier: MIT
 
 """
@@ -31,7 +31,7 @@ TEXT_FONT = terminalio.FONT
 class NotificationFree(displayio.Group):
     """Widget to show when no notifications are active."""
 
-    def __init__(self, width, height, *, dark_mode=True):
+    def __init__(self, width: int, height: int, *, dark_mode=True):
         # pylint: disable=unused-argument
         super().__init__()
 
@@ -50,7 +50,7 @@ class NotificationFree(displayio.Group):
 class PlainNotification(displayio.Group):
     """Plain text widget with a title and message."""
 
-    def __init__(self, title: str, message: str, width: int, height: int, *, dark_mode=True):
+    def __init__(self, title: str, message: str, width: int, height: int, *, dark_mode: bool=True):
         super().__init__()
 
         # Set text, font, and color
