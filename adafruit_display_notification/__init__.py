@@ -17,7 +17,7 @@ import terminalio
 # For older versions, typing may need to be imported
 try:
     from typing import List, Tuple
-except ImportError
+except ImportError:
     pass
 
 __version__ = "0.0.0+auto.0"
