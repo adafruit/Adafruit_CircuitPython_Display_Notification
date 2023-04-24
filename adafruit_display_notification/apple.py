@@ -13,12 +13,17 @@ in this library.
 
 from . import PlainNotification
 
+try:
+    from typing import Union
+except ImportError:
+    pass
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Display_Notification.git"
 
 
 def create_notification_widget(
-    notification: object, max_width: int, max_height: int, 
+    notification: object, max_width: Union[int, float], max_height: Union[int, float], 
     *, color_count: int=2**16):
     """
         Creates a notification widget for the given Apple notification.
