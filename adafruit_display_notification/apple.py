@@ -14,6 +14,9 @@ in this library.
 from . import PlainNotification
 
 try:
+    # unused typing-import to prevent the other typing-only imports from being loaded at runtime
+    from typing import Any  # pylint: disable=unused-import
+
     from adafruit_ble_apple_notification_center import Notification
 except ImportError:
     pass
