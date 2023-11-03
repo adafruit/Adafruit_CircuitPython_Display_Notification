@@ -54,7 +54,7 @@ SCALE = 2
 
 display = tft_gizmo.TFT_Gizmo()
 group = displayio.Group(scale=SCALE)
-display.show(group)
+display.root_group = group
 
 width = display.width // SCALE
 height = display.height // SCALE
