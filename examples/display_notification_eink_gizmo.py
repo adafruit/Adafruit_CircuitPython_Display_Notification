@@ -33,7 +33,7 @@ a.solicited_services.append(AppleNotificationCenterService)
 display = eink_gizmo.EInk_Gizmo()
 
 radio_widget = AdvertisingWidget(radio.name, display.width, display.height)
-display.show(radio_widget)
+display.root_group = radio_widget
 
 # True when the screen reflects our current state.
 screen_updated = False
@@ -77,16 +77,15 @@ while True:
             print(new_notification)
             latest_notification = new_notification
             screen_updated = False
-            display.show(
-                apple.create_notification_widget(
-                    latest_notification, display.width, display.height
-                )
+            display.root_group = apple.create_notification_widget(
+                latest_notification, display.width, display.height
             )
+
         elif latest_notification and latest_notification.removed:
             # Stop showing the latest and show that there are no new notifications.
             latest_notification = None
             screen_updated = False
-            display.show(NotificationFree(display.width, display.height))
+            display.root_group = NotificationFree(display.width, display.height)
 
         # Do not refresh the screen more often than every 180 seconds for eInk displays! Rapid
         # refreshes will damage the panel.
