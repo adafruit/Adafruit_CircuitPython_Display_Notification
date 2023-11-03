@@ -78,8 +78,8 @@ while True:
             latest_notification = new_notification
             screen_updated = False
             display.root_group = apple.create_notification_widget(
-                    latest_notification, display.width, display.height
-                )
+                latest_notification, display.width, display.height
+            )
 
         elif latest_notification and latest_notification.removed:
             # Stop showing the latest and show that there are no new notifications.
