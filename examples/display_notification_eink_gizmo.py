@@ -8,8 +8,8 @@ from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
 from adafruit_ble_apple_notification_center import AppleNotificationCenterService
 from adafruit_display_ble_status.advertising import AdvertisingWidget
 from adafruit_gizmo import eink_gizmo
-from adafruit_display_notification import apple
-from adafruit_display_notification import NotificationFree
+
+from adafruit_display_notification import NotificationFree, apple
 
 # This is a whitelist of apps to show notifications from.
 APPS = ["com.tinyspeck.chatlyio", "com.atebits.Tweetie2"]
@@ -56,19 +56,13 @@ while True:
         if not screen_updated:
             remaining_time = display.time_to_refresh
         new_notification = None
-        for notification in notification_service.wait_for_new_notifications(
-            remaining_time
-        ):
+        for notification in notification_service.wait_for_new_notifications(remaining_time):
             # Filter notifications we don't care about.
             if APPS and notification.app_id not in APPS:
                 continue
             # For now, use _raw_date even though we should use a parsed version of the date.
-            # pylint: disable=protected-access
             # Ignore notifications older than the currently shown one.
-            if (
-                latest_notification
-                and notification._raw_date < latest_notification._raw_date
-            ):
+            if latest_notification and notification._raw_date < latest_notification._raw_date:
                 continue
             new_notification = notification
             break

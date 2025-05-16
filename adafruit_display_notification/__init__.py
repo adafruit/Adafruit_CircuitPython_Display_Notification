@@ -11,10 +11,8 @@ Very basic notification widgets.
 """
 
 import displayio
-
-from adafruit_display_text import label
-
 import terminalio
+from adafruit_display_text import label
 
 try:
     from typing import List
@@ -26,14 +24,11 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Display_Notificat
 
 TEXT_FONT = terminalio.FONT
 
-# pylint: disable=too-few-public-methods
-
 
 class NotificationFree(displayio.Group):
     """Widget to show when no notifications are active."""
 
     def __init__(self, width: int, height: int, *, dark_mode: bool = True):
-        # pylint: disable=unused-argument
         super().__init__()
 
         if dark_mode:
@@ -42,9 +37,7 @@ class NotificationFree(displayio.Group):
             text_color = 0x000000
 
         # Create the text label
-        self.title = label.Label(
-            TEXT_FONT, text="None!", y=height // 2, color=text_color
-        )
+        self.title = label.Label(TEXT_FONT, text="None!", y=height // 2, color=text_color)
         self.append(self.title)
 
 
@@ -52,13 +45,7 @@ class PlainNotification(displayio.Group):
     """Plain text widget with a title and message."""
 
     def __init__(
-        self,
-        title: str,
-        message: str,
-        width: int,
-        height: int,
-        *,
-        dark_mode: bool = True
+        self, title: str, message: str, width: int, height: int, *, dark_mode: bool = True
     ):
         super().__init__()
 
