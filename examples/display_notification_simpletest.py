@@ -8,17 +8,17 @@ notifications.
 """
 
 import time
+
+import adafruit_ble
 import board
 import digitalio
 import displayio
-import adafruit_ble
 from adafruit_ble.advertising.standard import SolicitServicesAdvertisement
-
 from adafruit_ble_apple_notification_center import AppleNotificationCenterService
 from adafruit_display_ble_status.advertising import AdvertisingWidget
 from adafruit_gizmo import tft_gizmo
-from adafruit_display_notification import apple
-from adafruit_display_notification import NotificationFree
+
+from adafruit_display_notification import NotificationFree, apple
 
 # from adafruit_circuitplayground import cp
 
@@ -83,7 +83,6 @@ while True:
             all_ids.append(notification_id)
 
         # For now, use _raw_date even though we should use a parsed version of the date.
-        # pylint: disable=protected-access
         all_ids.sort(key=lambda x: current_notifications[x]._raw_date)
 
         if current_notification and current_notification.removed:
@@ -114,9 +113,7 @@ while True:
             if not current_notification or current_notification.id != notification_id:
                 current_notification = current_notifications[notification_id]
                 print(current_notification._raw_date, current_notification)
-                group[0] = apple.create_notification_widget(
-                    current_notification, width, height
-                )
+                group[0] = apple.create_notification_widget(current_notification, width, height)
 
     active_connection = None
     notification_service = None

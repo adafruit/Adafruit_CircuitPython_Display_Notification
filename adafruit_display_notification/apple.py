@@ -15,7 +15,7 @@ from . import PlainNotification
 
 try:
     # unused typing-import to prevent the other typing-only imports from being loaded at runtime
-    from typing import Any  # pylint: disable=unused-import
+    from typing import Any
 
     from adafruit_ble_apple_notification_center import Notification
 except ImportError:
@@ -26,14 +26,7 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_Display_Notificat
 
 
 def create_notification_widget(
-    notification: Notification,
-    max_width: int,
-    max_height: int,
-    *,
-    color_count: int = 2**16
+    notification: Notification, max_width: int, max_height: int, *, color_count: int = 2**16
 ) -> PlainNotification:
     """Creates a notification widget for the given Apple notification."""
-    # pylint: disable=unused-argument
-    return PlainNotification(
-        notification.title, notification.message, max_width, max_height
-    )
+    return PlainNotification(notification.title, notification.message, max_width, max_height)
